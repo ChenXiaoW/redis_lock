@@ -161,10 +161,11 @@ public class RedisController {
         boolean isLock;
         try {
             //尝试枷锁，最多等待3秒，加锁以后4秒自动解锁
-           // isLock = redissonLock.tryLock(3,4, TimeUnit.SECONDS);
+            //isLock = redissonLock.tryLock(3,4, TimeUnit.SECONDS);
+            isLock = redissonLock.tryLock();
             //log.info("获取锁的结果：{}",isLock);
-            redissonLock.lock(4,TimeUnit.SECONDS);
-            //if(isLock){
+          //  redissonLock.lock(4,TimeUnit.SECONDS);
+            if(isLock){
                 int stock = Integer.parseInt(stringRedisTemplate.opsForValue().get(key));
 
                 if (stock > 0) {
@@ -177,10 +178,10 @@ public class RedisController {
                     log.info("库存不足");
                     result = "库存不足";
                 }
-            /*}else {
+            }else {
                 log.info("获取锁失败");
                 return "获取锁失败";
-            }*/
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
             log.error("异常{}",e);

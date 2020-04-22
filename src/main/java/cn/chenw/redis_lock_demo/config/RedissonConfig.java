@@ -18,6 +18,7 @@ public class RedissonConfig {
         Config config = new Config();
         config.useSingleServer().setAddress("redis://47.106.220.141:6739")
                 .setDatabase(0);
+        config.setLockWatchdogTimeout(1000);
         return (Redisson) Redisson.create(config);
     }
 }
